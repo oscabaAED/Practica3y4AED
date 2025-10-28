@@ -207,7 +207,8 @@ Para convertir este conjunto a formato _tidy_ tendremos que agrupar todas las co
 Convierte el dataset `pew_religion` a formato _tidy_ usando `gather`. La columna `income` debe contener una variable de tipo `factor`.
 
 ```{r}
-pivot_longer(pew_religion, names_to = "income", values_to = "frequency", cols = -religion, names_transform = list(income = as.factor))
+pew_religion %>%
+  gather(key = "income", value ="frequency", factor_key = T, -religion)
 ```
 
 Otro ejemplo usando el conjunto de datos `Billboard` que muestra cuando una canción entró en el top 100.
@@ -228,7 +229,7 @@ Obtén la versión _tidy_ de este conjunto de datos usando `pivot_longer`.
 Consejo: puedes eliminar el prefijo `wk` de las semanas mediante el argumento `names_prefix`. Opcionalmente puedes crear una columna `date` a partir de `date.entered`, sumando las semanas transcurridas desde la fecha de entrada en lista.
 
 ```{r}
-
+  pivot_longer()
 
 ```
 
