@@ -365,7 +365,8 @@ flights.f
 Reasigna los nombres de los data frames `planes.f` y `flights.f` a los nombres originales  `planes` y `flights`.
 
 ```{r }
-
+planes <- planes.f
+flights <- flights.f
 ```
 
 
@@ -377,7 +378,8 @@ Existen variables que, a priori, no tienen demasiado interés para el estudio qu
 * En el data frame  `planes` quédate con todas las variables excepto `speed` y `type`.
 
 ```{r }
-
+flights <- flights %>% 
+  select(-time_hour, -starts_with("time"))
 ```
 
 ### Ejercicio 10
