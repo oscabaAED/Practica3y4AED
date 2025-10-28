@@ -354,7 +354,7 @@ Crea un data frame denominado `flights.f` que contenga los vuelos que involucren
 
 ```{r }
 flights.f <- flights %>%
-  inner_join(planes.f %>% select(tailnum) ,by = "tailnum")
+  inner_join(planes.f %>% select(tailnum), by = "tailnum")
 
 flights.f
 
@@ -389,8 +389,9 @@ planes <- planes %>%
 Incorpora una nueva variable a `flights` denominado `Full_Date` que sea de tipo `character` que incorpore una cadena de texto de la forma `d-m-Y`. Donde `d` indica día, `m` mes e `Y` año, a partir de la información incluida en el data frame. Utiliza una función de **DPLYR** que permita conseguir este propósito. Elimina las variables originales involucradas en la creación de la nueva variable.
 
 ```{r }
-
-
+flights <- flights %>%
+  mutate(Full_Date = paste(day, month, year, sep = "-")) %>% 
+  select(-day,-month,-year)
 ```
 
 ### Ejercicio 11
