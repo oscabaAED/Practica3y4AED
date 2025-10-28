@@ -339,8 +339,12 @@ En nuestro estudio queremos aplicar una serie de criterios de exclusión sobre l
 * Nota: Revisar el uso de la función filter vista en clase y tener en cuenta los operadores de comparación: igual ==, distinto !=, mayor >, mayor o igual >=, menor <, menor o igual <=.
 
 ```{r }
-planes %>%
-  filter(!grepl(pattern = "DOUGLAS", manufacturer))
+planes.f <- planes %>%
+  filter(!str_detect(str_to_lower(manufacturer), ".*douglas.*")) %>%
+  filter(between(seats, 90, 210)) %>%
+  mutate(manufacturer = ifelse(str_detect(str_to_lower(manufacturer), ".*airbus*"), "AIRBUS COMP", manufacturer))
+
+planes.f
 ```
 
 
@@ -349,7 +353,10 @@ planes %>%
 Crea un data frame denominado `flights.f` que contenga los vuelos que involucren a los aviones presentes en el data frame `planes.f`. Para ello utiliza algunas de las funciones de **XXX_join** y la variable `tailnum` que es común en ambos data frames. 
 
 ```{r }
+flights.f <- flights %>%
+  inner_join(planes.f %>% select(tailnum) ,by = "tailnum")
 
+flights.f
 
 ```
 
