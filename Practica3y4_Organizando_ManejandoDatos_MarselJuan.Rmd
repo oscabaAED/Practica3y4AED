@@ -403,9 +403,10 @@ agregado <- flights %>%
   group_by(tailnum) %>% 
   summarise(Num_flights = n(),
             Mean_distance = mean(distance),
-            Total_distance = sum(distance))
+            Total_distance = sum(distance)) %>% 
+  drop_na(tailnum)
 
-agregado
+Distances_plane <- agregado
 ```
 
 
