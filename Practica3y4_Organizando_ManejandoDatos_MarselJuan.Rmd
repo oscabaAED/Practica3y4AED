@@ -207,8 +207,10 @@ Para convertir este conjunto a formato _tidy_ tendremos que agrupar todas las co
 Convierte el dataset `pew_religion` a formato _tidy_ usando `gather`. La columna `income` debe contener una variable de tipo `factor`.
 
 ```{r}
-pew_religion %>%
-  gather(key = "income", value ="frequency", factor_key = T, -religion)
+pew_religion_tidy <- pew_religion %>%
+  gather(key = "income", value ="freq", factor_key = T, -religion)
+
+print(pew_religion_tidy)
 ```
 
 Otro ejemplo usando el conjunto de datos `Billboard` que muestra cuando una canción entró en el top 100.
@@ -229,9 +231,11 @@ Obtén la versión _tidy_ de este conjunto de datos usando `pivot_longer`.
 Consejo: puedes eliminar el prefijo `wk` de las semanas mediante el argumento `names_prefix`. Opcionalmente puedes crear una columna `date` a partir de `date.entered`, sumando las semanas transcurridas desde la fecha de entrada en lista.
 
 ```{r}
-raw %>%
+ej2_tidy <- raw %>%
   pivot_longer(cols = starts_with("wk"), names_to = "week", values_to = "rank", names_prefix = "wk") %>%
   mutate(week = as.integer(week), date = as.Date(date.entered) + weeks(week - 1))
+
+print(ej2_tidy)
 ```
 
 
@@ -253,9 +257,11 @@ Para pasar a formato _tidy_ necesitamos realizar dos operaciones en este caso. E
 Convierte el conjunto de datos TB en _tidy_ utilizando `gather` y `separate`.
 
 ```{r}
-raw %>%
+ej3_tidy <- raw %>%
   gather(key = "col", value = "casos", m014:fu) %>%
   separate(col = "col", sep = 1, into = c("sexo", "edad"))
+
+print(ej3_tidy)
 ```
 
 
@@ -277,12 +283,14 @@ Para obtener la versión _tidy_ primero juntamos todos los días en una variable
 Obtén la versión _tidy_ del conjunto de datos `weather` utilizando las funciones `pivot_longer` y `pivot_wider`. Además cambiaremos las columnas `year`, `month` y `dia` por una única variable `fecha`. Para que la operación `pivot_wider` no de error tendremos que eliminar los NA's cuando usemos `pivot_longer`.
 
 ```{r}
-raw %>%
+ej4_tidy <- raw %>%
   pivot_longer(names_to = "dia", values_to = "temperatura" , cols = d1:d31, names_prefix = "d") %>%
   drop_na(temperatura) %>%
   pivot_wider(names_from = element, values_from = temperatura) %>%
   unite(col = "fecha", year, month, dia, sep = "-") %>%
   mutate(fecha = as.Date(fecha))
+
+print(ej4_tidy)
 ```
 
 
@@ -379,7 +387,8 @@ Existen variables que, a priori, no tienen demasiado interés para el estudio qu
 
 ```{r }
 flights <- flights %>% 
-  select(-time_hour, -starts_with("time"))
+  select(-time_hour, -ends_with("time"))
+
 planes <- planes %>% 
   select(-speed, -type)
 ```
@@ -424,7 +433,6 @@ Separa los datos _tidy_ que teníamos en el ejercicio 2 en dos tablas (data fram
 Opcionalmente se puede crear un identificador, `id`, asociado al nombre de la canción (`track`), y en la tabla de ranking solo usaremos este identificador en lugar del nombre de la canción.
 
 ```{r}
-
 
 
 ```
